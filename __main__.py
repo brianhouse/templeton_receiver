@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import time, sys
-from __future__ import division, print_function, unicode_literals, absolute_import
 from pymetawear.client import MetaWearClient
 from housepy import config, log
 
