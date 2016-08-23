@@ -6,10 +6,11 @@ from pymetawear.client import MetaWearClient
 from housepy import config, log
 
 try:
-    adapter = sys.argv[0]
-    device_key = sys.argv[1]
+    adapter = sys.argv[1]
+    device_key = sys.argv[2]
     address = config['devices'][device_key]
-except Exception:
+except Exception as e:
+    print(e)
     print("[ADAPTER#] [DEVICE#] --via config.yaml")
     exit()
 
