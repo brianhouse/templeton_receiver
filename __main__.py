@@ -48,7 +48,8 @@ def on_data(data):
 c.accelerometer.notifications(on_data)
 
 try:
-    time.sleep(20.0)
+    while True:
+        time.sleep(1)
 except KeyboardInterrupt:    
     c.accelerometer.notifications(None)
     time.sleep(5.0)
