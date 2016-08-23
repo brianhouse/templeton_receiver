@@ -4,6 +4,7 @@
 import time, sys
 from pymetawear.client import MetaWearClient
 from housepy import config, log
+from rater import rater
 
 try:
     adapter = sys.argv[1]
@@ -39,9 +40,11 @@ c.led.write_pattern(pattern, 'g')
 c.led.play()
 time.sleep(5)
 log.info("--> ready")
+rater.start()
 
 def on_data(data):
     log.info("Epoch time: [{0}] - X: {1}, Y: {2}, Z: {3}".format(data[0], *data[1]))
+    rater.queue.put(1)
 c.accelerometer.notifications(on_data)
 
 try:
