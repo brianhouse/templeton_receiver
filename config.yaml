@@ -1,6 +1,8 @@
 tail: True
 log: True
 
+debug: False
+
 devices:
   red:    C4:33:9D:C8:FC:C3
   green:  E1:F3:FF:AD:A8:77

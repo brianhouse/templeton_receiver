@@ -43,7 +43,8 @@ log.info("--> ready")
 rater.start()
 
 def on_data(data):
-    log.info("Epoch time: [{0}] - X: {1}, Y: {2}, Z: {3}".format(data[0], *data[1]))
+    if config['debug']:
+        log.debug("Epoch time: [{0}] - X: {1}, Y: {2}, Z: {3}".format(data[0], *data[1]))
     rater.queue.put(1)
 c.accelerometer.notifications(on_data)
 
