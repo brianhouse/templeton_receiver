@@ -18,7 +18,7 @@ log.info("Using %s to connect to %s..." % (adapter, address))
 
 while True:
     try:
-        c = MetaWearClient(, 'pygatt', debug=False, adapter=adapter)        
+        c = MetaWearClient(address, 'pygatt', debug=False, adapter=adapter)        
         log.info("--> MetaWear initialized: {0}".format(c))
         log.info(c.accelerometer)
         ## setup
