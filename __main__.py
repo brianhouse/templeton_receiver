@@ -45,10 +45,10 @@ c.accelerometer.notifications(on_data)
 
 try:
     time.sleep(20.0)
-except KeyboardInterrupt:
-    log.info("Shutting down...")
+except KeyboardInterrupt:    
     c.accelerometer.notifications(None)
     time.sleep(5.0)
+    log.info("Shutting down...")
     c.disconnect()
     log.info("--> bye")
 
