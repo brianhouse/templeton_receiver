@@ -18,5 +18,6 @@ class Rater(threading.Thread):
                     events.append(self.queue.get_nowait())                    
                 log.info("Running at %shz" % sum(events))
                 start_t = t
+            time.sleep(0.1)
 
 rater = Rater()
