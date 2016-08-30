@@ -6,7 +6,7 @@ from housepy import log, osc
 class MonitorSender(threading.Thread):
 
     def __init__(self):
-        super(Rater, self).__init__()
+        super(MonitorSender, self).__init__()
         self.daemon = True
         self.queue = queue.Queue()
         self.socket = osc.Sender(23232)
@@ -22,7 +22,7 @@ class MonitorSender(threading.Thread):
 class MonitorReceiver(threading.Thread):
 
     def __init__(self):
-        super(Rater, self).__init__()
+        super(MonitorReceiver, self).__init__()
         self.daemon = True
         self.queue = queue.Queue()
         self.start()
