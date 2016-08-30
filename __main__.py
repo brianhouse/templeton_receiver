@@ -42,7 +42,6 @@ c.led.play()
 time.sleep(5)
 log.info("--> ready")
 rater.start()
-monitor.start()
 
 def on_data(data):
     if config['debug']:
