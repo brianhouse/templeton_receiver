@@ -37,8 +37,8 @@ class MonitorReceiver(threading.Thread):
 
 
 if __name__ == "__main__":
-    monitor = MonitorReceiver
+    monitor = MonitorReceiver()
     while True:
         time.sleep(0.1)
 else:
-    monitor = MonitorSender
+    monitor = MonitorSender()
