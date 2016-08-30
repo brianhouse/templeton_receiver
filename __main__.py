@@ -5,7 +5,7 @@ import time, sys
 from pymetawear.client import MetaWearClient
 from housepy import config, log
 from rater import rater
-from monitor import monitor
+from monitor import MonitorSender
 
 try:
     adapter = sys.argv[1]
@@ -16,6 +16,7 @@ except Exception as e:
     print("[ADAPTER#] [DEVICE#] --via config.yaml")
     exit()
 
+monitor = MonitorSender(adapter, device_key)
 log.info("Using %s to connect to %s..." % (adapter, address))
 
 while True:
