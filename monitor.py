@@ -3,6 +3,8 @@
 import threading, queue, time
 from housepy import log, osc
 
+osc.verbose = False
+
 class MonitorSender(threading.Thread):
 
     def __init__(self):
@@ -33,7 +35,7 @@ class MonitorReceiver(threading.Thread):
             print(address)
             print(data)
             self.queue.put(data)
-        self.socket = osc.Receiver(23232, blocking=True)
+        self.socket = osc.Receiver(23232, on_message, blocking=True)
 
 
 if __name__ == "__main__":
