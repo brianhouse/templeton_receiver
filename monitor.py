@@ -12,16 +12,19 @@ class MonitorSender(threading.Thread):
         self.adapter = adapter
         self.device_key = device_key
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.socket.sendto(("/init,%s,%s" % (self.adapter, self.device_key)).encode('utf-8'), config['monitor'], 23232)
+        message = "/init,%s,%s" % (self.adapter, self.device_key)
+        self.socket.sendto(message.encode('utf-8'), config['monitor'], 23232)
         self.start()
 
     def run(self):        
         while True:
             data = self.queue.get()
             if len(data) == int:
-                self.socket.sendto("/hz,%s,%s,%s" % (self.adapter, self.device_key, data), config['monitor'], 23232)
+                message = "/hz,%s,%s,%s" % (self.adapter, self.device_key, data)
+                self.socket.sendto(message.encode('utf-8'), config['monitor'], 23232)
             elif config['monitor'] is not None:
-                self.socket.send("/a,%s,%s,%s,%f,%f,%f", [self.adapter, self.device_key, data[0], data[1][0], data[1][1], data[1][2]])
+                message = "/a,%s,%s,%s,%f,%f,%f" % (self.adapter, self.device_key, data[0], data[1][0], data[1][1], data[1][2])
+                self.socket.sendto(message.encode('utf-8'), config['monitor'], 23232)
 
 
 class MonitorReceiver(threading.Thread):
