@@ -19,7 +19,7 @@ class MonitorSender(threading.Thread):
     def run(self):        
         while True:
             data = self.queue.get()
-            if len(data) == int:
+            if type(data) == int:
                 message = "/hz,%s,%s,%s" % (self.adapter, self.device_key, data)
                 self.socket.sendto(message.encode('utf-8'), (config['monitor'], 23232))
             elif config['monitor'] is not None:
