@@ -1,14 +1,7 @@
 #!/usr/bin/env python3
 
-<<<<<<< HEAD
-import threading, queue, time
-from housepy import log, osc, config
-
-osc.verbose = True
-=======
 import threading, queue, time, socket
 from housepy import log, config
->>>>>>> b1f407033ca2656a850b83cea29cdc5cb56bb0bc
 
 class MonitorSender(threading.Thread):
 
