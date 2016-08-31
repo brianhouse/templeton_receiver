@@ -12,7 +12,7 @@ class MonitorSender(threading.Thread):
         self.adapter = adapter
         self.device_key = device_key
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.socket.sendto("/init,%s,%s" & (self.adapter, self.device_key), config['monitor'], 23232)
+        self.socket.sendto(("/init,%s,%s" % (self.adapter, self.device_key)).encode('utf-8'), config['monitor'], 23232)
         self.start()
 
     def run(self):        
