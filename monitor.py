@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 
+<<<<<<< HEAD
 import threading, queue, time
 from housepy import log, osc, config
 
 osc.verbose = True
+=======
+import threading, queue, time, socket
+from housepy import log, config
+>>>>>>> b1f407033ca2656a850b83cea29cdc5cb56bb0bc
 
 class MonitorSender(threading.Thread):
 
@@ -13,17 +18,17 @@ class MonitorSender(threading.Thread):
         self.queue = queue.Queue()
         self.adapter = adapter
         self.device_key = device_key
-        self.socket = osc.Sender(config['monitor'], 23232)
-        self.socket.send("/init", [self.adapter, self.device_key])
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.socket.sendto("/init,%s,%s" & (self.adapter, self.device_key), config['monitor'], 23232)
         self.start()
 
     def run(self):        
         while True:
             data = self.queue.get()
-            if type(data) == int:
-                self.socket.send("/hz", [self.adapter, self.device_key, data])
+            if len(data) == int:
+                self.socket.sendto("/hz,%s,%s,%s" % (self.adapter, self.device_key, data), config['monitor'], 23232)
             elif config['monitor'] is not None:
-                self.socket.send("/a", [self.adapter, self.device_key, str(data[0]), str(data[1][0]), str(data[1][1]), str(data[1][2])])
+                self.socket.send("/a,%s,%s,%s,%f,%f,%f", [self.adapter, self.device_key, data[0], data[1][0], data[1][1], data[1][2]])
 
 
 class MonitorReceiver(threading.Thread):
@@ -32,15 +37,21 @@ class MonitorReceiver(threading.Thread):
         super(MonitorReceiver, self).__init__()
         self.daemon = True
         self.queue = queue.Queue()
+        self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  
+        self.socket.bind(('', 23232))      
         self.start()
 
     def run(self):
-        def on_message(location, address, data):
-            if address == "/a":
-                self.queue.put(data)
-            else:
-                log.info(address, data)
-        self.socket = osc.Receiver(23232, on_message, blocking=True)
+        while True:
+            try:
+                message, address = self.socket.recvfrom(1024)
+                data = message.decode('utf-8').split(',')
+                if data[0] == "/a":
+                    self.queue.put(data[1:])    
+                else:
+                    log.info(data)
+            except Exception as e:
+                log.error(log.exc(e))
 
 
 if __name__ == "__main__":
