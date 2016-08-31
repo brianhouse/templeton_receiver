@@ -3,7 +3,7 @@
 import threading, queue, time
 from housepy import log, osc, config
 
-osc.verbose = False
+osc.verbose = True
 
 class MonitorSender(threading.Thread):
 
@@ -20,10 +20,10 @@ class MonitorSender(threading.Thread):
     def run(self):        
         while True:
             data = self.queue.get()
-            if len(data) == 1:
+            if type(data) == int:
                 self.socket.send("/hz", [self.adapter, self.device_key, data])
             elif config['monitor'] is not None:
-                self.socket.send("/a", [self.adapter, self.device_key, data[0], data[1][0], data[1][1], data[1][2]])
+                self.socket.send("/a", [self.adapter, self.device_key, str(data[0]), str(data[1][0]), str(data[1][1]), str(data[1][2])])
 
 
 class MonitorReceiver(threading.Thread):

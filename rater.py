@@ -23,4 +23,3 @@ class Rater(threading.Thread):
                 start_t = t
             time.sleep(0.1)
 
-rater = Rater()
